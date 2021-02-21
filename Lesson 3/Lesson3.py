@@ -1,4 +1,5 @@
 import PyPDF2
+import pyttsx3
 
 def AddingWaterMark():
     minutes_file = open("meetingminutes.pdf", 'rb')
@@ -23,4 +24,17 @@ def AddingWaterMark():
     watermark_file.close()
     result_pdf.close()
 
-AddingWaterMark()
+
+def makeAudioBookFromPDF():
+    book = open("meetingminutes.pdf", 'rb')
+    pdf_reader = PyPDF2.PdfFileReader(book)
+    pages = pdf_reader.numPages
+
+    play = pyttsx3.init()
+    print("playing....")
+    for num in range(0, pages):
+        page = pdf_reader.getPage(num)
+        text = page.extractText()
+        play.say(text)
+        play.runAndWait()
+
